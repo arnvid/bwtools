@@ -36,17 +36,18 @@ void pccb(unsigned char * dummy, const struct pcap_pkthdr * hdr, const unsigned 
 
 
 void usage(char * binary) {
-  printf("Usage: %s [-i interface] [-l interval] [-h] [-k]\n", binary);
+  printf("Usage: %s [-i interface] [-l interval] [-h] [-k] [-p]\n", binary);
   printf("  Default interface    : %s [-i if]\n", DIF);
   printf("  Default loadinterval : 30 sec [-l sec]\n\n");
   printf("  -h : help\n");
   printf("  -k : print in kbytes\n");
+  printf("  -p : put if in promisc mode\n");
   printf("\n");
   exit(1);
 }
 
 int main(int argc, char ** argv, char ** envp) {
-  int dorun, flag;
+  int dorun, flag, do_promisc;
   pcap_t * pc;
   struct bpf_program fp;
   struct timeval tv1, tv2;
@@ -56,10 +57,11 @@ int main(int argc, char ** argv, char ** envp) {
   u_int kbyte=0;
 
   dorun = 1;
+  do_promisc = 0;
   strcpy(arg_interface, DIF);
   interval = 30;
   
-  while((flag = (int) getopt(argc, argv, "l:i:hk")) != EOF) {
+  while((flag = (int) getopt(argc, argv, "l:i:hpk")) != EOF) {
 	switch(flag) {
 		case 'l':
 			interval = atoi(optarg);
@@ -72,6 +74,9 @@ int main(int argc, char ** argv, char ** envp) {
 			break;
                 case 'k':
                         kbyte = 1;
+                        break;
+                case 'p':
+                        do_promisc = 1;
                         break;
 		default:
 			printf("Unknown flag %c\n", flag);
@@ -86,7 +91,7 @@ int main(int argc, char ** argv, char ** envp) {
   }
   printf("- running on device [%s] and load interval [%i]\n\n", arg_interface, interval);
   interval = interval * 1000;  // convert to ms;)
-  pc = pcap_open_live(arg_interface, 256, 0, 1, errbuf);
+  pc = pcap_open_live(arg_interface, 256, do_promisc, 1, errbuf);
   if (!pc) {
     printf("Failed to open \"%s\": %s\n", arg_interface, errbuf);
     exit(1);
