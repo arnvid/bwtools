@@ -1,3 +1,20 @@
+arnvid      2004/09/10 05:00:06 CEST	(20040910_0)
+
+  Modified files:
+    .                    Makefile 
+  Added files:
+    include              bwtools.h patchlevel.h serno.h 
+  Log:
+  Added new structure
+  
+  Revision  Changes    Path
+  1.2       +1 -5      bwtools/Makefile
+  1.1       +11 -0     bwtools/include/bwtools.h (new)
+  1.1       +6 -0      bwtools/include/patchlevel.h (new)
+  1.1       +3 -0      bwtools/include/serno.h (new)
+
+
+
 arnvid      2004/09/10 04:58:48 CEST
 
   bwtools/include - New directory
