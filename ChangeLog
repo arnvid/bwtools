@@ -1,3 +1,15 @@
+arnvid      2005/01/27 14:18:36 CET	(20050127_0)
+
+  Modified files:
+    .                    bw.c 
+  Log:
+  Added the ability of letting bw run in promisc mode.
+  
+  Revision  Changes    Path
+  1.4       +10 -5     bwtools/bw.c
+
+
+
 arnvid      2004/09/10 05:04:53 CEST	(20040910_1)
 
   Modified files:
