@@ -1,12 +1,8 @@
-/* [isd] Bandwidth monitor  --  rewritten to not be a poor /proc/  reader!
- * -----------------------------------------------------------------------
+/* [isd] bwtools -  bandwidth monitor 
+ * -----------------------------------
  * written by : Arnvid Karstad
  * ideas by   : Erik Sperling
  *  
- * compile    : gcc -o bw bw.c
- * prereq's   : libpcap
- *
- *
  * $Id$
  */
  
@@ -20,17 +16,14 @@
 #include <string.h>
 #include <ctype.h>
 #include <time.h> 
-
-#define VER "1.3.0"
-#ifdef __FreeBSD__
-# define DIF "fxp0"
-#else
-# define DIF "eth0"
-#endif
+#include "include/serno.h"
+#include "include/patchlevel.h"
+#include "include/bwtools.h"
 
 const char *_version = "$Revision$";
 
-char errbuf[PCAP_ERRBUF_SIZE];char arg_interface[128];
+char errbuf[PCAP_ERRBUF_SIZE];
+char arg_interface[128];
 int  interval;
 int  cnt;
 int  pkt;
@@ -43,11 +36,10 @@ void pccb(unsigned char * dummy, const struct pcap_pkthdr * hdr, const unsigned 
 
 
 void usage(char * binary) {
-  printf("Usage: %s [-i interface] [-l interval] [-h] [-s] [-k]\n", binary);
+  printf("Usage: %s [-i interface] [-l interval] [-h] [-k]\n", binary);
   printf("  Default interface    : %s [-i if]\n", DIF);
   printf("  Default loadinterval : 30 sec [-l sec]\n\n");
   printf("  -h : help\n");
-  printf("  -s : dont print info\n");
   printf("  -k : print in kbytes\n");
   printf("\n");
   exit(1);
@@ -61,14 +53,13 @@ int main(int argc, char ** argv, char ** envp) {
   unsigned long tm;
   time_t tm3;
   char s[128];
-  int LIFESUX=0;
   u_int kbyte=0;
 
   dorun = 1;
   strcpy(arg_interface, DIF);
   interval = 30;
   
-  while((flag = (int) getopt(argc, argv, "l:i:hsk")) != EOF) {
+  while((flag = (int) getopt(argc, argv, "l:i:hk")) != EOF) {
 	switch(flag) {
 		case 'l':
 			interval = atoi(optarg);
@@ -79,9 +70,6 @@ int main(int argc, char ** argv, char ** envp) {
 		case 'h':
 			dorun = 0;
 			break;
-                case 's':
-                        LIFESUX = 1;
-                        break;
                 case 'k':
                         kbyte = 1;
                         break;
@@ -91,12 +79,12 @@ int main(int argc, char ** argv, char ** envp) {
 	}
   }
 
-  if (!LIFESUX) printf("[isd/2004] bandwidth monitor v%s\n",VER);
+  printf("[isd/bwtools] bandwidth monitor v%s (%s)\n",PATCHLEVEL,SERIALNUM);
   if (dorun == 0) {
     usage(argv[0]);
     exit(1);
   }
-  if (!LIFESUX) printf("running on device [%s] and load interval [%i]\n\n", arg_interface, interval);
+  printf("- running on device [%s] and load interval [%i]\n\n", arg_interface, interval);
   interval = interval * 1000;  // convert to ms;)
   pc = pcap_open_live(arg_interface, 256, 0, 1, errbuf);
   if (!pc) {
