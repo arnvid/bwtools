@@ -1,3 +1,1 @@
-#$Id$
-#define SERIALNUM "20040907_0"
-
+#define SERIALNUM "20040910_0"
