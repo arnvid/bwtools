@@ -21,13 +21,14 @@
 #include <ctype.h>
 #include <time.h> 
 
-#define VER "1.2b"
+#define VER "1.3.0"
 #ifdef __FreeBSD__
 # define DIF "fxp0"
 #else
 # define DIF "eth0"
 #endif
 
+const char *_version = "$Revision$";
 
 char errbuf[PCAP_ERRBUF_SIZE];char arg_interface[128];
 int  interval;
