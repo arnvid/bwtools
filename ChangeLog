@@ -1,3 +1,26 @@
+arnvid      2004/05/02 02:59:49 CEST
+
+  bwtools - Imported sources
+  Update of /home/cvsisd/bwtools
+  In directory cvs-1:/home/arnvid/import/bwtools
+  
+  Log Message:
+  reimport
+  
+  Status:
+  
+  Vendor Tag:	isd
+  Release Tags:	start
+  		
+  N bwtools/bw.c
+  N bwtools/Makefile
+  N bwtools/ChangeLog
+  
+  No conflicts created by this import
+  
+
+
+
 arnvid      2004/03/04 03:48:41 CET
 
   Modified files:
