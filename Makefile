@@ -1,3 +1,4 @@
+# $Id$
 OBJECTS=bw.o
 TARGET=bw
 LIBS=-lpcap
@@ -19,8 +20,3 @@ depend:
 .c.o:
 	$(CC) $(CFLAGS) -c $<
 
-
-.depend:
-	@touch .depend
-
-include .depend
